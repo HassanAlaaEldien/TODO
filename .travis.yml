@@ -8,5 +8,4 @@ php:
 sudo: false
 
 script:
-  - vendor/bin/phpmd app text codesize design naming unusedcode
-  - vendor/bin/phpunit --testdox --coverage-text tests
+  - php vendor/phpunit/phpunit/phpunit
