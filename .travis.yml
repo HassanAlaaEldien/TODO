@@ -9,6 +9,7 @@ sudo: false
 
 before_script:
   - composer install --no-interaction --prefer-dist
+  - php artisan key:generate
 
 script:
   - vendor/bin/phpunit
