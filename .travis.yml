@@ -8,7 +8,7 @@ php:
 sudo: false
 
 before_script:
-  - composer install --dev --prefer-source -no-interaction
+  - composer install --no-interaction --prefer-dist
   - php artisan serve
 
 script:
