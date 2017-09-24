@@ -10,6 +10,13 @@ sudo: false
 services:
   - mysql
 
+test:
+  - adapter: mysql2
+  - database: todo
+  - username: root
+  - password: secret
+  - encoding: utf8
+
 before_install:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS todo;'
 
