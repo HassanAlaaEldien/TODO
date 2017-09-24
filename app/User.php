@@ -4,10 +4,11 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -26,4 +27,18 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function tasks()
+    {
+        return $this->hasMany('App\Task');
+    }
+
+    public function register($user)
+    {
+        $this->create([
+            'name' => $user['name'],
+            'email' => $user['email'],
+            'password' => bcrypt($user['password']),
+        ]);
+    }
 }

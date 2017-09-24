@@ -18,7 +18,17 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
-        'remember_token' => str_random(10),
+        'password' => $password ?: $password = 'secret',
+        'remember_token' => str_random(10)
+    ];
+});
+
+$factory->define(App\Task::class, function (Faker\Generator $faker) {
+
+    return [
+        'task' => $faker->sentence,
+        'user_id' => function () {
+            return factory(\App\User::class)->create(['password' => bcrypt('secret')])->id;
+        }
     ];
 });
