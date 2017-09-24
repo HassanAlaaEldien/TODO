@@ -7,10 +7,17 @@ php:
 
 sudo: false
 
+before_install:
+  - mysql -e 'CREATE DATABASE todo;'
+
+services:
+  - mysql
+
 before_script:
   - composer install --no-interaction --prefer-dist
   - mv .env.example .env
   - php artisan key:generate
+  - php artisan migrate
 
 script:
   - vendor/bin/phpunit
