@@ -18,6 +18,7 @@ before_script:
   - mv .env.example .env
   - php artisan key:generate
   - php artisan migrate
+  - php artisan passport:install
 
 script:
   - vendor/bin/phpunit --filter unauthorized_user_cannot_assign_deadline_to_his_task
