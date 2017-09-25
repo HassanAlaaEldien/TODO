@@ -41,7 +41,7 @@ class taskController extends Controller
         if (!$task->checkUserAccessibility())
             return response()->json(['success' => false], 401);
 
-        $task->assign($request->all());
+        // $task->assign($request->all());
 
         return response()->json(['success' => true], 201);
     }

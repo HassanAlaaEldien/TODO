@@ -54,9 +54,8 @@ class assignDeadlineTest extends TestCase
 
         $response->assertStatus(401);
 
-        /* unset($deadline->task);
+        unset($deadline->task);
 
-         $this->assertDatabaseMissing('task_deadlines', $deadline->toArray());*/
-
+        $this->assertDatabaseMissing('task_deadlines', $deadline->toArray());
     }
 }
