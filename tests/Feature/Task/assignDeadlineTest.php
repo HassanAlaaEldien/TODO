@@ -52,7 +52,7 @@ class assignDeadlineTest extends TestCase
 
         $response = $this->post('api/task/deadline/' . $deadline->task->id, $deadline->toArray(), ['Accept' => 'application/json']);
 
-        dd($deadline);
+        dd($deadline->task_id);
 
         $response->assertStatus(401);
 
