@@ -38,10 +38,10 @@ class taskController extends Controller
 
     public function assignDeadline(assignTaskDeadline $request, Task $task)
     {
-        if (!$task->checkUserAccessibility())
-            return response()->json(['success' => false], 401);
+        /*if (!$task->checkUserAccessibility())
+            return response()->json(['success' => false], 401);*/
 
-        // $task->assign($request->all());
+        $task->assign($request->all());
 
         return response()->json(['success' => true], 201);
     }
