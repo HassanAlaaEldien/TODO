@@ -20,4 +20,4 @@ before_script:
   - php artisan migrate
 
 script:
-  - vendor/bin/phpunit
+  - vendor/bin/phpunit --filter unauthorized_user_cannot_assign_deadline_to_his_task
