@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Tasks\assignTaskDeadline;
 use App\Http\Requests\Tasks\createTask;
 use App\Task;
+use App\TaskDeadline;
 
 class taskController extends Controller
 {
@@ -32,5 +34,15 @@ class taskController extends Controller
         $task->delete();
 
         return response()->json(['success' => true], 200);
+    }
+
+    public function assignDeadline(assignTaskDeadline $request, Task $task)
+    {
+        if (!$task->checkUserAccessibility())
+            return response()->json(['success' => false], 401);
+
+        $task->assign($request->all());
+
+        return response()->json(['success' => true], 201);
     }
 }

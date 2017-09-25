@@ -32,3 +32,13 @@ $factory->define(App\Task::class, function (Faker\Generator $faker) {
         }
     ];
 });
+
+$factory->define(App\TaskDeadline::class, function (Faker\Generator $faker) {
+
+    return [
+        'deadline' => $faker->dateTime(),
+        'task_id' => function () {
+            return factory(\App\Task::class)->create()->id;
+        }
+    ];
+});

@@ -19,7 +19,7 @@ use Tests\TestCase;
 class deleteTaskTest extends TestCase
 {
     /*use DatabaseTransactions, DatabaseMigrations;*/
-    
+
     /** @test */
     function user_can_delete_his_task()
     {
@@ -27,11 +27,36 @@ class deleteTaskTest extends TestCase
 
         Passport::actingAs(User::find($task->user_id), ['api']);
 
-        $response = $this->delete('api/task/delete/' . $task->id);
+        $response = $this->delete('api/task/delete/' . $task->id, [], ['Accept' => 'application/json']);
 
         $response->assertStatus(200);
 
         $this->assertDatabaseMissing('tasks', $task->toArray());
+    }
 
+    /** @test */
+    function user_cannot_delete_another_user_task()
+    {
+        $task = factory(Task::class)->create();
+
+        Passport::actingAs(factory(User::class)->create(['password' => bcrypt('secret')]), ['api']);
+
+        $response = $this->delete('api/task/delete/' . $task->id, [], ['Accept' => 'application/json']);
+
+        $response->assertStatus(401);
+
+        $this->assertDatabaseHas('tasks', $task->toArray());
+    }
+
+    /** @test */
+    function guest_cannot_delete_any_user_task()
+    {
+        $task = factory(Task::class)->create();
+
+        $response = $this->delete('api/task/delete/' . $task->id, [], ['Accept' => 'application/json']);
+
+        $response->assertStatus(401);
+
+        $this->assertDatabaseHas('tasks', $task->toArray());
     }
 }

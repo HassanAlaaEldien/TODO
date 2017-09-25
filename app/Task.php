@@ -21,6 +21,11 @@ class Task extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function deadline()
+    {
+        return $this->hasOne('App\TaskDeadline');
+    }
+
     public function add($data)
     {
         Auth::user()->tasks()->create([
@@ -32,6 +37,13 @@ class Task extends Model
     {
         $this->update([
             'task' => $data['task']
+        ]);
+    }
+
+    public function assign($data)
+    {
+        $this->deadline()->create([
+            'deadline' => $data['deadline']
         ]);
     }
 

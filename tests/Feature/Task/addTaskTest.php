@@ -27,10 +27,36 @@ class addTaskTest extends TestCase
 
         Passport::actingAs(User::find($task->user_id), ['api']);
 
-        $response = $this->post('api/task/create', $task->toArray());
+        $response = $this->post('api/task/create', $task->toArray(), ['Accept' => 'application/json']);
 
         $response->assertStatus(201);
 
         $this->assertDatabaseHas('tasks', $task->toArray());
+    }
+
+    /** @test */
+    function unauthorized_user_cannot_create_task()
+    {
+        $task = factory(Task::class)->make();
+
+        $response = $this->post('api/task/create', $task->toArray(), ['Accept' => 'application/json']);
+
+        $response->assertStatus(401);
+
+        $this->assertDatabaseMissing('tasks', $task->toArray());
+    }
+
+    /** @test */
+    function guest_cannot_create_task()
+    {
+        $task = factory(Task::class)->make();
+
+        unset($task->user_id);
+
+        $response = $this->post('api/task/create', $task->toArray(), ['Accept' => 'application/json']);
+
+        $response->assertStatus(401);
+
+        $this->assertDatabaseMissing('tasks', $task->toArray());
     }
 }
