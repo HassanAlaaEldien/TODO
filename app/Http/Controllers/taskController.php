@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Tasks\assignTaskDeadline;
 use App\Http\Requests\Tasks\createTask;
 use App\Task;
-use App\TaskDeadline;
 
 class taskController extends Controller
 {
@@ -38,6 +37,6 @@ class taskController extends Controller
 
     public function assignDeadline(assignTaskDeadline $request, Task $task)
     {
-        
+
     }
 }
