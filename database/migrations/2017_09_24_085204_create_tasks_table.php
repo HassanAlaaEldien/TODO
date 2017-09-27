@@ -17,6 +17,7 @@ class CreateTasksTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->text('task');
+            $table->enum('status', ['public', 'private']);
             $table->timestamps();
 
             $table->index('user_id');

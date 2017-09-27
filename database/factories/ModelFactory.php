@@ -29,7 +29,8 @@ $factory->define(App\Task::class, function (Faker\Generator $faker) {
         'task' => $faker->sentence,
         'user_id' => function () {
             return factory(\App\User::class)->create(['password' => bcrypt('secret')])->id;
-        }
+        },
+        'status' => 'private'
     ];
 });
 

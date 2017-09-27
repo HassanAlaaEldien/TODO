@@ -25,5 +25,7 @@ Route::group(['prefix' => 'task', 'middleware' => 'auth:api'], function () {
 
     // Assign Deadline To Task.
     Route::post('deadline/{task}', 'taskController@assignDeadline');
+    // Toggle Task Status.
+    Route::patch('toggleStatus/{task}', 'taskController@toggleStatus');
 });
 

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTaskDeadlinesTable extends Migration
+class CreateTaskAttachmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateTaskDeadlinesTable extends Migration
      */
     public function up()
     {
-        Schema::create('task_deadlines', function (Blueprint $table) {
+        Schema::create('task_attachments', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('task_id')->unsigned();
-            $table->timestamp('deadline');
+            $table->string('attachment');
             $table->timestamps();
 
             $table->index('task_id');
@@ -31,6 +31,6 @@ class CreateTaskDeadlinesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('task_deadlines');
+        Schema::dropIfExists('task_attachments');
     }
 }
