@@ -21,4 +21,4 @@ before_script:
   - php artisan passport:install
 
 script:
-  - vendor/bin/phpunit --filter unauthorized_user_cannot_assign_deadline_to_his_task
+  - vendor/bin/phpunit
