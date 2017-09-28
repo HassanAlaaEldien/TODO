@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::post('user/register', 'userController@registration');
 
 Route::group(['prefix' => 'task', 'middleware' => 'auth:api'], function () {
-
     // CRUD Operation.
     Route::post('create', 'taskController@create');
     Route::put('edit/{task}', 'taskController@edit');
@@ -27,5 +26,7 @@ Route::group(['prefix' => 'task', 'middleware' => 'auth:api'], function () {
     Route::post('deadline/{task}', 'taskController@assignDeadline');
     // Toggle Task Status.
     Route::patch('toggleStatus/{task}', 'taskController@toggleStatus');
+    // Attach File To Task.
+    Route::post('attachFile/{task}', 'taskController@attachFile');
 });
 

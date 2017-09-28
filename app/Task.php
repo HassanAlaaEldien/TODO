@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Faker\Provider\DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class Task extends Model
 {
@@ -52,6 +53,13 @@ class Task extends Model
     {
         $this->deadline()->create([
             'deadline' => $data['deadline']
+        ]);
+    }
+
+    public function attachFile($file)
+    {
+        $this->attachments()->create([
+            'attachment' => $file
         ]);
     }
 
