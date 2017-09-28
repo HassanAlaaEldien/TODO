@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,19 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('user/register', 'userController@registration');
+
+Route::group(['prefix' => 'task', 'middleware' => 'auth:api'], function () {
+    // CRUD Operation.
+    Route::post('create', 'taskController@create');
+    Route::put('edit/{task}', 'taskController@edit');
+    Route::delete('delete/{task}', 'taskController@delete');
+
+    // Assign Deadline To Task.
+    Route::post('deadline/{task}', 'taskController@assignDeadline');
+    // Toggle Task Status.
+    Route::patch('toggleStatus/{task}', 'taskController@toggleStatus');
+    // Attach File To Task.
+    Route::post('attachFile/{task}', 'taskController@attachFile');
 });
+
