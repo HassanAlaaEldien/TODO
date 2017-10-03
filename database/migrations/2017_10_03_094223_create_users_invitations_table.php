@@ -21,9 +21,9 @@ class CreateUsersInvitationsTable extends Migration
 /*
             $table->index('user_id');
             $table->foreign('user_id')->references('users')->on('id')->onDelete('cascade');
-
+*/
             $table->index('task_id');
-            $table->foreign('task_id')->references('tasks')->on('id')->onDelete('cascade');*/
+            $table->foreign('task_id')->references('tasks')->on('id')->onDelete('cascade');
         });
     }
 
