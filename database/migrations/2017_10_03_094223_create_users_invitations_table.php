@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserInvitationsTable extends Migration
+class CreateUsersInvitationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateUserInvitationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_invitations', function (Blueprint $table) {
+        Schema::create('users_invitations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('task_id')->unsigned();
@@ -34,6 +34,6 @@ class CreateUserInvitationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_invitations');
+        Schema::dropIfExists('users_invitations');
     }
 }

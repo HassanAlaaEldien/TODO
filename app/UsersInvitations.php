@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserInvitations extends Model
+class UsersInvitations extends Model
 {
     //
 }
