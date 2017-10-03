@@ -31,6 +31,6 @@ Route::group(['prefix' => 'task', 'middleware' => 'auth:api'], function () {
 
     // Invite Users To See Private Tasks.
     Route::post('invitation/send/{task}', 'taskController@sendInvitation');
-    Route::post('invitation/response', 'taskController@invitationResponse');
+    Route::post('invitation/response/{task}', 'taskController@invitationResponse');
 });
 

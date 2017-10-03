@@ -7,6 +7,13 @@ use App\User;
 
 class userController extends Controller
 {
+    /**
+     * User Registration.
+     *
+     * @param UserRegistration $request
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function registration(UserRegistration $request, User $user)
     {
         $user->register($request->all());

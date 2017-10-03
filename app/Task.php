@@ -19,21 +19,43 @@ class Task extends Model
         'task', 'status'
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user()
     {
         return $this->belongsTo('App\User');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function invitations()
+    {
+        return $this->belongsToMany('App\User', 'invitation_user', 'task_id', 'user_id')->withTimestamps();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function deadline()
     {
         return $this->hasOne('App\TaskDeadline');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function attachments()
     {
         return $this->hasMany('App\taskAttachments');
     }
 
+    /**
+     * Add Task Operation.
+     *
+     * @param $data
+     */
     public function add($data)
     {
         Auth::user()->tasks()->create([
@@ -42,6 +64,11 @@ class Task extends Model
         ]);
     }
 
+    /**
+     * Edit Task Operation.
+     *
+     * @param $data
+     */
     public function edit($data)
     {
         $this->update([
@@ -49,6 +76,11 @@ class Task extends Model
         ]);
     }
 
+    /**
+     * Assign Deadline To Task.
+     *
+     * @param $data
+     */
     public function assign($data)
     {
         $this->deadline()->create([
@@ -56,6 +88,11 @@ class Task extends Model
         ]);
     }
 
+    /**
+     * Attach File To Task.
+     *
+     * @param $file
+     */
     public function attachFile($file)
     {
         $this->attachments()->create([
@@ -63,11 +100,22 @@ class Task extends Model
         ]);
     }
 
+    /**
+     * Check If User Authorized To Make Any Operation On Specific Task.
+     *
+     * @return bool
+     */
     public function checkUserAccessibility()
     {
         return $this->user_id === Auth::user()->id ? true : false;
     }
 
+    /**
+     * Check If Deadline of Task Is Available.
+     *
+     * @param $deadline
+     * @return mixed
+     */
     public function checkDeadlineAvailability($deadline)
     {
         $deadline = Carbon::parse(is_a($deadline, 'DateTime') ? $deadline->format('Y-m-d H:i:s') : $deadline);

@@ -2,10 +2,10 @@
 
 namespace App;
 
-use App\Events\InviteUser;
 use App\Notifications\UserInvitations;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
@@ -39,6 +39,14 @@ class User extends Authenticatable
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function invitations()
+    {
+        return $this->belongsToMany('App\Task', 'invitation_user', 'user_id', 'task_id')->withTimestamps();
+    }
+
+    /**
      * User Registration.
      *
      * @param $user
@@ -65,5 +73,37 @@ class User extends Authenticatable
         $message = $this->name . ' invite you to see his private task (' . explode(' ', trim($task->task))[0] . ') .';
 
         $user->notify(new UserInvitations($task, $message));
+    }
+
+    /**
+     * Respond To Invitation.
+     *
+     * @param $reply
+     * @param Task $task
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function respondToInvitation($reply, $authorized, Task $task)
+    {
+        if ($reply == 'yes' && $authorized)
+            Auth::user()->invitations()->attach($task->id);
+    }
+
+
+    /**
+     * Check if user Invited.
+     *
+     * @param Task $task
+     * @return bool
+     */
+    public function checkIfUserInvited(Task $task)
+    {
+        $authorized = false;
+
+        foreach (Auth::user()->notifications as $notification) {
+            if ($notification->notifiable_id == Auth::user()->id && $notification->data['task']['id'] == $task->id)
+                $authorized = true;
+        }
+
+        return $authorized;
     }
 }

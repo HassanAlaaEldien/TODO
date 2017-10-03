@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersInvitationsTable extends Migration
+class CreateInvitationUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,17 @@ class CreateUsersInvitationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('users_invitations', function (Blueprint $table) {
+        Schema::create('invitation_user', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('task_id')->unsigned();
             $table->timestamps();
-/*
+
             $table->index('user_id');
-            $table->foreign('user_id')->references('users')->on('id')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->index('task_id');
-            $table->foreign('task_id')->references('tasks')->on('id')->onDelete('cascade');*/
+            $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');
         });
     }
 
@@ -34,6 +34,6 @@ class CreateUsersInvitationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_invitations');
+        Schema::dropIfExists('invitation_user');
     }
 }
