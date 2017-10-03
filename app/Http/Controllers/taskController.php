@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\InviteUser;
 use App\Http\Requests\Tasks\assignTaskDeadline;
 use App\Http\Requests\Tasks\attachFileToTask;
 use App\Http\Requests\Tasks\createTask;
 use App\Http\Requests\Tasks\toggleTaskStatus;
+use App\Notifications\UserInvitations;
 use App\Task;
+use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class taskController extends Controller
 {
-    /* Start Task CRUD Operation */
-
     public function create(createTask $request, Task $task)
     {
         $task->add($request->all());
@@ -40,8 +43,6 @@ class taskController extends Controller
         return response()->json(['success' => true], 200);
     }
 
-    /* End Task CRUD Operation */
-    
     public function assignDeadline(assignTaskDeadline $request, Task $task)
     {
         if (!$task->checkUserAccessibility())
@@ -75,6 +76,16 @@ class taskController extends Controller
         $path = Storage::disk('Tasks')->putFile('files', $request->file('file'));
 
         $task->attachFile($path);
+
+        return response()->json(['success' => true], 200);
+    }
+
+    public function sendInvitation(Request $request, Task $task)
+    {
+        if (!$task->checkUserAccessibility())
+            return response()->json(['success' => false], 401);
+
+        Auth::user()->sendInvitation($request->user, $task);
 
         return response()->json(['success' => true], 200);
     }

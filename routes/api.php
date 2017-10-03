@@ -28,5 +28,9 @@ Route::group(['prefix' => 'task', 'middleware' => 'auth:api'], function () {
     Route::patch('toggleStatus/{task}', 'taskController@toggleStatus');
     // Attach File To Task.
     Route::post('attachFile/{task}', 'taskController@attachFile');
+
+    // Invite Users To See Private Tasks.
+    Route::post('invitation/send/{task}', 'taskController@sendInvitation');
+    Route::post('invitation/response', 'taskController@invitationResponse');
 });
 
