@@ -4,7 +4,7 @@ namespace App\Http\Requests\Tasks;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class createTask extends FormRequest
+class editTask extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

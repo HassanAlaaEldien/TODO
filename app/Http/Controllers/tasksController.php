@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Tasks\assignTaskDeadline;
 use App\Http\Requests\Tasks\attachFileToTask;
 use App\Http\Requests\Tasks\createTask;
+use App\Http\Requests\Tasks\editTask;
 use App\Http\Requests\Tasks\toggleTaskStatus;
 use App\Task;
 use Illuminate\Http\Request;
@@ -27,6 +28,18 @@ class tasksController extends Controller
     }
 
     /**
+     * @param Task $task
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function watchTask(Task $task)
+    {
+        if (Auth::check())
+            $task->notifyTaskOwner($task);
+
+        return response()->json(['success' => true, 'task' => $task]);
+    }
+
+    /**
      * Create Task Process.
      *
      * @param createTask $request
@@ -43,11 +56,11 @@ class tasksController extends Controller
     /**
      * Edit Task Process.
      *
-     * @param createTask $request
+     * @param editTask $request
      * @param Task $task
      * @return \Illuminate\Http\JsonResponse
      */
-    public function edit(createTask $request, Task $task)
+    public function edit(editTask $request, Task $task)
     {
         if (!$task->checkUserAccessibility())
             return response()->json(['success' => false], 401);

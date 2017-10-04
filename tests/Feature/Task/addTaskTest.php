@@ -20,6 +20,12 @@ class addTaskTest extends TestCase
 {
     /*use DatabaseTransactions, DatabaseMigrations;*/
 
+    public function setUp()
+    {
+        parent::setUp();
+        $this->artisan('migrate:refresh');
+    }
+
     /** @test */
     function user_can_create_task()
     {

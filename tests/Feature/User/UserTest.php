@@ -16,6 +16,12 @@ use Tests\TestCase;
 
 class UserTest extends TestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+        $this->artisan('migrate:refresh');
+    }
+    
     /** @test */
     function guest_can_register_with_system()
     {

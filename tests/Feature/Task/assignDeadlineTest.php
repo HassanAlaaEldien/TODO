@@ -9,6 +9,12 @@ use Tests\TestCase;
 
 class assignDeadlineTest extends TestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+        $this->artisan('migrate:refresh');
+    }
+
     /** @test */
     public function user_can_assign_deadline_to_his_task()
     {

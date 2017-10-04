@@ -12,6 +12,12 @@ use Tests\TestCase;
 
 class attachFilesTest extends TestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+        $this->artisan('migrate:refresh');
+    }
+
     /** @test */
     public function user_can_attach_files_to_his_task()
     {

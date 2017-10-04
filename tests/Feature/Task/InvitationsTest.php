@@ -5,13 +5,17 @@ namespace Tests\Feature\Task;
 use App\Notifications\UserInvitations;
 use App\Task;
 use App\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class InvitationsTest extends TestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+        $this->artisan('migrate:refresh');
+    }
 
     /** @test */
     public function authorized_user_can_send_invitation_to_other_users_to_see_his_private_tasks()

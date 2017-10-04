@@ -2,11 +2,10 @@
 
 namespace App;
 
+use App\Notifications\NotifyWatchedTasks;
 use Carbon\Carbon;
-use Faker\Provider\DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class Task extends Model
 {
@@ -16,7 +15,7 @@ class Task extends Model
      * @var array
      */
     protected $fillable = [
-        'task', 'status'
+        'title', 'task', 'status', 'slug'
     ];
 
     /**
@@ -33,6 +32,14 @@ class Task extends Model
     public function invitations()
     {
         return $this->belongsToMany('App\User', 'invitation_user', 'task_id', 'user_id')->withTimestamps();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function usersWatchedThisTask()
+    {
+        return $this->belongsToMany('App\User', 'watched_tasks', 'task_id', 'user_id')->withTimestamps();
     }
 
     /**
@@ -59,6 +66,7 @@ class Task extends Model
     public function add($data)
     {
         Auth::user()->tasks()->create([
+            'title' => $data['title'],
             'task' => $data['task'],
             'status' => isset($data['status']) ? $data['status'] ? $data['status'] : 'public' : 'public'
         ]);
@@ -72,6 +80,7 @@ class Task extends Model
     public function edit($data)
     {
         $this->update([
+            'title' => $data['title'],
             'task' => $data['task']
         ]);
     }
@@ -98,6 +107,23 @@ class Task extends Model
         $this->attachments()->create([
             'attachment' => $file
         ]);
+    }
+
+
+    /**
+     * Notify task owner that any user watch his task.
+     *
+     * @param $task
+     */
+    public function notifyTaskOwner($task)
+    {
+        $notifiable_user = User::find($task->user_id);
+
+        $message = Auth::user()->name . " viewed your task ( $task->title ) .";
+
+        $notifiable_user->notify(new NotifyWatchedTasks($message));
+
+        Auth::user()->watchedTasks()->attach($task->id);
     }
 
     /**

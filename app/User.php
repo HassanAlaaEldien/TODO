@@ -47,6 +47,14 @@ class User extends Authenticatable
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function watchedTasks()
+    {
+        return $this->belongsToMany('App\Task', 'watched_tasks', 'user_id', 'task_id')->withTimestamps();
+    }
+
+    /**
      * User Registration.
      *
      * @param $user
@@ -70,7 +78,7 @@ class User extends Authenticatable
     {
         $user = User::find($user);
 
-        $message = $this->name . ' invite you to see his private task (' . explode(' ', trim($task->task))[0] . ') .';
+        $message = "$this->name invite you to see his private task ( $task->title ) .";
 
         $user->notify(new UserInvitations($task, $message));
     }

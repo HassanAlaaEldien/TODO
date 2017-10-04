@@ -10,6 +10,11 @@ use Tests\TestCase;
 
 class toggleStatusTest extends TestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+        $this->artisan('migrate:refresh');
+    }
 
     /** @test */
     public function authorized_user_can_toggle_only_his_tasks_status()

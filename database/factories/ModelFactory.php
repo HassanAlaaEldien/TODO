@@ -26,6 +26,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 $factory->define(App\Task::class, function (Faker\Generator $faker) {
 
     return [
+        'title' => $faker->sentence(1),
         'task' => $faker->sentence,
         'user_id' => function () {
             return factory(\App\User::class)->create(['password' => bcrypt('secret')])->id;

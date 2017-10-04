@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('users/register', 'usersController@registration');
 Route::get('tasks', 'tasksController@index');
+Route::get('tasks/{task}', 'tasksController@watchTask');
 
 Route::group(['prefix' => 'tasks', 'middleware' => 'auth:api'], function () {
     // CRUD Operation.
