@@ -27,7 +27,7 @@ class addTaskTest extends TestCase
 
         Passport::actingAs(User::find($task->user_id), ['api']);
 
-        $response = $this->post('api/task/create', $task->toArray(), ['Accept' => 'application/json']);
+        $response = $this->post('api/tasks/create', $task->toArray(), ['Accept' => 'application/json']);
 
         $response->assertStatus(201);
 
@@ -39,7 +39,7 @@ class addTaskTest extends TestCase
     {
         $task = factory(Task::class)->make();
 
-        $response = $this->post('api/task/create', $task->toArray(), ['Accept' => 'application/json']);
+        $response = $this->post('api/tasks/create', $task->toArray(), ['Accept' => 'application/json']);
 
         $response->assertStatus(401);
 
@@ -53,7 +53,7 @@ class addTaskTest extends TestCase
 
         unset($task->user_id);
 
-        $response = $this->post('api/task/create', $task->toArray(), ['Accept' => 'application/json']);
+        $response = $this->post('api/tasks/create', $task->toArray(), ['Accept' => 'application/json']);
 
         $response->assertStatus(401);
 

@@ -14,23 +14,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('user/register', 'userController@registration');
+Route::post('users/register', 'usersController@registration');
+Route::get('tasks', 'tasksController@index');
 
-Route::group(['prefix' => 'task', 'middleware' => 'auth:api'], function () {
+Route::group(['prefix' => 'tasks', 'middleware' => 'auth:api'], function () {
     // CRUD Operation.
-    Route::post('create', 'taskController@create');
-    Route::put('edit/{task}', 'taskController@edit');
-    Route::delete('delete/{task}', 'taskController@delete');
+    Route::post('create', 'tasksController@create');
+    Route::put('edit/{task}', 'tasksController@edit');
+    Route::delete('delete/{task}', 'tasksController@delete');
 
     // Assign Deadline To Task.
-    Route::post('deadline/{task}', 'taskController@assignDeadline');
+    Route::post('deadline/{task}', 'tasksController@assignDeadline');
     // Toggle Task Status.
-    Route::patch('toggleStatus/{task}', 'taskController@toggleStatus');
+    Route::patch('toggleStatus/{task}', 'tasksController@toggleStatus');
     // Attach File To Task.
-    Route::post('attachFile/{task}', 'taskController@attachFile');
+    Route::post('attachFile/{task}', 'tasksController@attachFile');
 
     // Invite Users To See Private Tasks.
-    Route::post('invitation/send/{task}', 'taskController@sendInvitation');
-    Route::post('invitation/response/{task}', 'taskController@invitationResponse');
+    Route::post('invitation/send/{task}', 'tasksController@sendInvitation');
+    Route::post('invitation/response/{task}', 'tasksController@invitationResponse');
 });
 

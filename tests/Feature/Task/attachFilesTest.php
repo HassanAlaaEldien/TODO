@@ -21,7 +21,7 @@ class attachFilesTest extends TestCase
 
         Storage::fake('Tasks');
 
-        $response = $this->post('/api/task/attachFile/' . $task->id, [
+        $response = $this->post('/api/tasks/attachFile/' . $task->id, [
             'file' => UploadedFile::fake()->create('document.pdf', 40)
         ], ['Accept' => 'application/json']);
 

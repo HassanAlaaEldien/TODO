@@ -33,7 +33,7 @@ class InvitationsTest extends TestCase
 
         Passport::actingAs(User::find($user->id), ['api']);
 
-        $response = $this->post('api/task/invitation/response/' . $task->id, ['reply' => 'yes']);
+        $response = $this->post('api/tasks/invitation/response/' . $task->id, ['reply' => 'yes']);
 
         $response->assertStatus(201);
     }
@@ -48,7 +48,7 @@ class InvitationsTest extends TestCase
 
         Passport::actingAs($uninvited_user, ['api']);
 
-        $response = $this->post('api/task/invitation/response/' . $task->id, ['reply' => 'yes']);
+        $response = $this->post('api/tasks/invitation/response/' . $task->id, ['reply' => 'yes']);
 
         $response->assertStatus(403);
     }
@@ -64,7 +64,7 @@ class InvitationsTest extends TestCase
 
         Passport::actingAs(User::find($task->user_id), ['api']);
 
-        $response = $this->post('api/task/invitation/send/' . $task->id, ['user' => $user->id]);
+        $response = $this->post('api/tasks/invitation/send/' . $task->id, ['user' => $user->id]);
 
         return array($task, $user, $response);
     }

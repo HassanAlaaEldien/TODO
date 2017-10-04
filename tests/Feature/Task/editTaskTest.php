@@ -29,7 +29,7 @@ class editTaskTest extends TestCase
 
         $new_task = factory(Task::class)->make(['task' => 'New Task !!!', 'user_id' => $task->user_id]);
 
-        $response = $this->put('api/task/edit/' . $task->id, $new_task->toArray(), ['Accept' => 'application/json']);
+        $response = $this->put('api/tasks/edit/' . $task->id, $new_task->toArray(), ['Accept' => 'application/json']);
 
         $response->assertStatus(200);
 
@@ -50,7 +50,7 @@ class editTaskTest extends TestCase
 
         Passport::actingAs(User::find($new_task->user_id), ['api']);
 
-        $response = $this->put('api/task/edit/' . $task->id, $new_task->toArray(), ['Accept' => 'application/json']);
+        $response = $this->put('api/tasks/edit/' . $task->id, $new_task->toArray(), ['Accept' => 'application/json']);
 
         $response->assertStatus(401);
 
@@ -67,7 +67,7 @@ class editTaskTest extends TestCase
 
         $new_task = factory(Task::class)->make(['task' => 'New Task !!!', 'user_id' => null]);
 
-        $response = $this->put('api/task/edit/' . $task->id, $new_task->toArray(), ['Accept' => 'application/json']);
+        $response = $this->put('api/tasks/edit/' . $task->id, $new_task->toArray(), ['Accept' => 'application/json']);
 
         $response->assertStatus(401);
 

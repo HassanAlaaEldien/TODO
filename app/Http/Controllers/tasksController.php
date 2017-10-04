@@ -11,8 +11,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class taskController extends Controller
+class tasksController extends Controller
 {
+
+    /**
+     * Get All Public Tasks.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        $tasks = Task::where('status', 'public')->get();
+
+        return response()->json(['success' => true, 'tasks' => $tasks]);
+    }
+
     /**
      * Create Task Process.
      *

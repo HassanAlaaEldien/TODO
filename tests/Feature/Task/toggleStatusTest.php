@@ -20,7 +20,7 @@ class toggleStatusTest extends TestCase
 
         $task_new_status = ['status' => 'public'];
 
-        $response = $this->patch('api/task/toggleStatus/' . $task->id, $task_new_status, ['Accept' => 'application/json']);
+        $response = $this->patch('api/tasks/toggleStatus/' . $task->id, $task_new_status, ['Accept' => 'application/json']);
 
         $response->assertStatus(200);
 

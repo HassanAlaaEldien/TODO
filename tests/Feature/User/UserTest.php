@@ -21,7 +21,7 @@ class UserTest extends TestCase
     {
         $user = factory(User::class)->make();
 
-        $response = $this->post('api/user/register', $user->makeVisible('password')->toArray());
+        $response = $this->post('api/users/register', $user->makeVisible('password')->toArray());
 
         $response->assertStatus(201);
 

@@ -16,7 +16,7 @@ class assignDeadlineTest extends TestCase
 
         Passport::actingAs(User::find($deadline->task->user_id), ['api']);
 
-        $response = $this->post('api/task/deadline/' . $deadline->task->id, $deadline->toArray(), ['Accept' => 'application/json']);
+        $response = $this->post('api/tasks/deadline/' . $deadline->task->id, $deadline->toArray(), ['Accept' => 'application/json']);
 
         $response->assertStatus(201);
 
@@ -32,7 +32,7 @@ class assignDeadlineTest extends TestCase
 
         Passport::actingAs(User::find($deadline->task->user_id), ['api']);
 
-        $response = $this->post('api/task/deadline/' . $deadline->task->id, $deadline->toArray(), ['Accept' => 'application/json']);
+        $response = $this->post('api/tasks/deadline/' . $deadline->task->id, $deadline->toArray(), ['Accept' => 'application/json']);
 
         $response->assertStatus(422);
 
@@ -49,7 +49,7 @@ class assignDeadlineTest extends TestCase
 
         Passport::actingAs(factory(User::class)->create(['password' => bcrypt('secret')]), ['api']);
 
-        $response = $this->post('api/task/deadline/' . $deadline->task->id, $deadline->toArray(), ['Accept' => 'application/json']);
+        $response = $this->post('api/tasks/deadline/' . $deadline->task->id, $deadline->toArray(), ['Accept' => 'application/json']);
 
         $response->assertStatus(401);
 
@@ -63,7 +63,7 @@ class assignDeadlineTest extends TestCase
     {
         $deadline = factory(TaskDeadline::class)->make();
 
-        $response = $this->post('api/task/deadline/' . $deadline->task->id, $deadline->toArray(), ['Accept' => 'application/json']);
+        $response = $this->post('api/tasks/deadline/' . $deadline->task->id, $deadline->toArray(), ['Accept' => 'application/json']);
 
         $response->assertStatus(401);
 

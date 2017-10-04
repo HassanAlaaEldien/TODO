@@ -27,7 +27,7 @@ class deleteTaskTest extends TestCase
 
         Passport::actingAs(User::find($task->user_id), ['api']);
 
-        $response = $this->delete('api/task/delete/' . $task->id, [], ['Accept' => 'application/json']);
+        $response = $this->delete('api/tasks/delete/' . $task->id, [], ['Accept' => 'application/json']);
 
         $response->assertStatus(200);
 
@@ -41,7 +41,7 @@ class deleteTaskTest extends TestCase
 
         Passport::actingAs(factory(User::class)->create(['password' => bcrypt('secret')]), ['api']);
 
-        $response = $this->delete('api/task/delete/' . $task->id, [], ['Accept' => 'application/json']);
+        $response = $this->delete('api/tasks/delete/' . $task->id, [], ['Accept' => 'application/json']);
 
         $response->assertStatus(401);
 
@@ -53,7 +53,7 @@ class deleteTaskTest extends TestCase
     {
         $task = factory(Task::class)->create();
 
-        $response = $this->delete('api/task/delete/' . $task->id, [], ['Accept' => 'application/json']);
+        $response = $this->delete('api/tasks/delete/' . $task->id, [], ['Accept' => 'application/json']);
 
         $response->assertStatus(401);
 

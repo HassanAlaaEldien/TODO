@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Users\UserRegistration;
 use App\User;
 
-class userController extends Controller
+class usersController extends Controller
 {
     /**
      * User Registration.
