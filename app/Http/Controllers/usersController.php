@@ -22,7 +22,11 @@ class usersController extends Controller
      */
     public function registration(UserRegistration $request, User $user)
     {
-        $user->register($request->all());
+        $user->create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => bcrypt($request['password']),
+        ]);;
 
         return response()->json(['success' => true], 201);
     }
