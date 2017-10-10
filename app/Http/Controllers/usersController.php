@@ -22,7 +22,7 @@ class usersController extends Controller
      */
     public function registration(UserRegistration $request, User $user)
     {
-        
+        $user->register($request->all());
 
         return response()->json(['success' => true], 201);
     }
