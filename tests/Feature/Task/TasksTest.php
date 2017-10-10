@@ -66,4 +66,34 @@ class tasksTest extends TestCase
 
         $response->assertJson(['success' => true, 'task' => $task->toArray()]);
     }
+
+    /** @test */
+    public function user_feed_contain_his_tasks_also_tasks_he_watched()
+    {
+        list($tasks, $other_user_task) = $this->create_and_watch_tasks();
+
+        $response = $this->get('api/users/feed');
+
+        $response->assertStatus(200);
+
+        $response->assertJson(['success' => true, 'tasks' => array_merge($tasks->toArray(), [$other_user_task->toArray()])]);
+    }
+
+    /**
+     * @return array
+     */
+    protected function create_and_watch_tasks()
+    {
+        $user = factory(User::class)->create(['password' => bcrypt('secret')]);
+
+        $tasks = factory(Task::class, 5)->create(['user_id' => $user->id]);
+
+        $other_user_task = factory(Task::class)->create(['status' => 'public']);
+
+        Passport::actingAs($user);
+
+        $this->get('api/tasks/' . $other_user_task->id);
+
+        return array($tasks, $other_user_task);
+    }
 }

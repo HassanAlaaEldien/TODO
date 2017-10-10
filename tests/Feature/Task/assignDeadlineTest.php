@@ -4,6 +4,7 @@ namespace Tests\Feature\Task;
 
 use App\TaskDeadline;
 use App\User;
+use Illuminate\Support\Facades\Notification;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
@@ -18,7 +19,7 @@ class assignDeadlineTest extends TestCase
     /** @test */
     public function user_can_assign_deadline_to_his_task()
     {
-        $deadline = factory(TaskDeadline::class)->make(['deadline' => '2018-01-02 11:12:14']);
+        $deadline = factory(TaskDeadline::class)->make(['deadline' => '2017-10-12 11:12:14']);
 
         Passport::actingAs(User::find($deadline->task->user_id), ['api']);
 

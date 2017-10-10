@@ -4,25 +4,25 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class taskAttachments extends Model
+class UserImage extends Model
 {
     /**
      * @var array
      */
     protected $fillable = [
-        'attachment',
+        'avatar',
     ];
 
     /**
      * @var string
      */
-    protected $table = 'task_attachments';
+    protected $table = 'user_images';
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function task()
+    public function user()
     {
-        return $this->belongsTo('App\Task');
+        return $this->belongsTo('App\User');
     }
 }

@@ -14,25 +14,35 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('users/register', 'usersController@registration');
-Route::get('tasks', 'tasksController@index');
-Route::get('tasks/{task}', 'tasksController@watchTask');
+Route::post('users/register', 'usersController@registration')->name('userRegistration');
+Route::get('tasks', 'tasksController@index')->name('allTasks');
+Route::get('tasks/{task}', 'tasksController@watchTask')->name('specificTask');
 
-Route::group(['prefix' => 'tasks', 'middleware' => 'auth:api'], function () {
-    // CRUD Operation.
-    Route::post('create', 'tasksController@create');
-    Route::put('edit/{task}', 'tasksController@edit');
-    Route::delete('delete/{task}', 'tasksController@delete');
+Route::group(['middleware' => 'auth:api'], function () {
 
-    // Assign Deadline To Task.
-    Route::post('deadline/{task}', 'tasksController@assignDeadline');
-    // Toggle Task Status.
-    Route::patch('toggleStatus/{task}', 'tasksController@toggleStatus');
-    // Attach File To Task.
-    Route::post('attachFile/{task}', 'tasksController@attachFile');
+    Route::group(['prefix' => 'tasks'], function () {
+        // CRUD Operation.
+        Route::post('create', 'tasksController@create')->name('createTask');
+        Route::put('edit/{task}', 'tasksController@edit')->name('updateTask');
+        Route::delete('delete/{task}', 'tasksController@delete')->name('deleteTask');
 
-    // Invite Users To See Private Tasks.
-    Route::post('invitation/send/{task}', 'tasksController@sendInvitation');
-    Route::post('invitation/response/{task}', 'tasksController@invitationResponse');
+        // Assign Deadline To Task.
+        Route::post('deadline/{task}', 'tasksController@assignDeadline')->name('assignTaskDeadline');
+        // Toggle Task Status.
+        Route::patch('toggleStatus/{task}', 'tasksController@toggleStatus')->name('toggleTaskStatus');
+        // Attach File To Task.
+        Route::post('attachFile/{task}', 'tasksController@attachFile')->name('attachTaskFile');
+
+        // Invite Users To See Private Tasks.
+        Route::post('invitation/send/{task}', 'tasksController@sendInvitation')->name('sendInvitation');
+        Route::post('invitation/response/{task}', 'tasksController@invitationResponse')->name('respondToInvitation');
+    });
+
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('feed', 'usersController@userFeed')->name('userFeed');
+        Route::get('search', 'usersController@search')->name('search');
+        Route::post('changePassword', 'usersController@changePassword')->name('changePassword');
+        Route::put('updatePersonalInfo', 'usersController@updatePersonalInfo')->name('updatePersonalInfo');
+    });
 });
 

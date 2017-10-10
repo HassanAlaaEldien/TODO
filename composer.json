@@ -9,8 +9,10 @@
   "type": "project",
   "require": {
     "php": ">=5.6.4",
+    "algolia/algoliasearch-client-php": "^1.21",
     "laravel/framework": "5.4.*",
     "laravel/passport": "^4.0",
+    "laravel/scout": "^3.0",
     "laravel/tinker": "~1.0",
     "pusher/pusher-php-server": "~2.6"
   },

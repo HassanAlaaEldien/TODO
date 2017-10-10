@@ -25,15 +25,13 @@ class attachFilesTest extends TestCase
 
         Passport::actingAs(User::find($task->user_id), ['api']);
 
-        Storage::fake('Tasks');
-
         $response = $this->post('/api/tasks/attachFile/' . $task->id, [
             'file' => UploadedFile::fake()->create('document.pdf', 40)
-        ], ['Accept' => 'application/json']);
+        ]);
 
         $response->assertStatus(200);
 
-        Storage::disk('Tasks')->assertExists('files');
+        Storage::disk('local')->assertExists($task->attachments->attachment);
     }
 
 }

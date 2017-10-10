@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Jobs\DeadlineReminder;
 use App\Notifications\NotifyWatchedTasks;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,11 @@ class Task extends Model
     protected $fillable = [
         'title', 'task', 'status', 'slug'
     ];
+
+    /**
+     * @var string
+     */
+    protected $table = 'tasks';
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -51,11 +57,11 @@ class Task extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function attachments()
     {
-        return $this->hasMany('App\taskAttachments');
+        return $this->hasOne('App\taskAttachments');
     }
 
     /**
@@ -90,11 +96,13 @@ class Task extends Model
      *
      * @param $data
      */
-    public function assign($data)
+    public function assignDeadline($data)
     {
         $this->deadline()->create([
             'deadline' => $data['deadline']
         ]);
+
+        $this->notifyAfterEightyPercent($data);
     }
 
     /**
@@ -147,5 +155,21 @@ class Task extends Model
         $deadline = Carbon::parse(is_a($deadline, 'DateTime') ? $deadline->format('Y-m-d H:i:s') : $deadline);
 
         return $this->created_at->gt($deadline);
+    }
+
+    /**
+     * @param $data
+     */
+    protected function notifyAfterEightyPercent($data)
+    {
+        $deadline = Carbon::parse(is_a($data['deadline'], 'DateTime') ? $data['deadline']->format('Y-m-d H:i:s') : $data['deadline']);
+
+        $deadline_length = $deadline->diffInHours($this->created_at);
+
+        $eighty_percent = Carbon::now()->diffInHours($this->created_at->addHours($deadline_length * .8));
+
+        $remaining_length = $deadline_length - ($deadline_length * .8);
+
+        DeadlineReminder::dispatch($this, $remaining_length)->delay(Carbon::now()->addHours($eighty_percent));
     }
 }

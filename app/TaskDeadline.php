@@ -16,6 +16,14 @@ class TaskDeadline extends Model
         'deadline',
     ];
 
+    /**
+     * @var string
+     */
+    protected $table = 'task_deadlines';
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function task()
     {
         return $this->belongsTo('App\Task');

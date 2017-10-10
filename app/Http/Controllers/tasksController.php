@@ -7,7 +7,9 @@ use App\Http\Requests\Tasks\attachFileToTask;
 use App\Http\Requests\Tasks\createTask;
 use App\Http\Requests\Tasks\editTask;
 use App\Http\Requests\Tasks\toggleTaskStatus;
+use App\Jobs\DeadlineReminder;
 use App\Task;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -101,7 +103,7 @@ class tasksController extends Controller
         if ($task->checkDeadlineAvailability($request['deadline']))
             return response()->json(['success' => false, 'message' => 'please enter valid date for deadline.'], 422);
 
-        $task->assign($request->all());
+        $task->assignDeadline($request->all());
 
         return response()->json(['success' => true], 201);
     }
@@ -137,7 +139,7 @@ class tasksController extends Controller
         if (!$task->checkUserAccessibility())
             return response()->json(['success' => false], 401);
 
-        $path = Storage::disk('Tasks')->putFile('files', $request->file('file'));
+        $path = Storage::putFile('Tasks/files', $request->file('file'));
 
         $task->attachFile($path);
 
